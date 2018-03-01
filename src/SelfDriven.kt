@@ -114,13 +114,16 @@ fun main(args: Array<String>) {
     println(scenario)
 
     scenario.let {
-        for (i in 1..it.rides.size) {
-            val result = Recursion.getAllLists(it.rides, i)
-            result.forEach {
-                it.forEach {
-                    print("${it.index},")
+        var rides = it.rides
+        for (i in 2..rides.size) {
+            val routes = Recursion.getAllLists(rides, i)
+            routes.forEach {
+                val route = it
+                route.forEach {
+                    val ride = it
+                    print("${ride.index},")
                 }
-                println()
+                println(" (${rides.size - route.size} remain)")
             }
         }
     }
