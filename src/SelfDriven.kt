@@ -28,10 +28,9 @@ class Scenario(lines: List<String>) {
         bonus = values[i++].toInt()
         stepCount = values[i++].toInt()
 
-        (1 until rideCount)
-                .forEach {
-                    addRide(Ride(it, lines[it]))
-                }
+        for (i in 1..rideCount) {
+            addRide(Ride(i, lines[i]))
+        }
 
         vehicles.forEach {
             val vehicle = it
@@ -47,7 +46,10 @@ class Scenario(lines: List<String>) {
     }
 
     override fun toString(): String {
-        return "Scenario(rows=$rows, cols=$cols, bonus=$bonus, stepCount=$stepCount, rides=$rides), vehicles=$vehicles"
+        return "Scenario:\n" +
+                "\trows=$rows, cols=$cols, bonus=$bonus, stepCount=$stepCount,\n" +
+                "\trides=$rides),\n" +
+                "\tvehicles=$vehicles"
     }
 
 }
@@ -107,7 +109,7 @@ fun main(args: Array<String>) {
     val inputString = inputStream.bufferedReader().use { it.readText() }
     println(inputString)
 
-    val lines = inputString.split("\r\n")
+    val lines = inputString.split(System.lineSeparator())
     val scenario = Scenario(lines)
 
     println(scenario)
