@@ -1,4 +1,3 @@
-import Recursion.getAllLists
 import java.io.File
 import java.io.InputStream
 import java.util.*
@@ -115,15 +114,15 @@ fun main(args: Array<String>) {
     println(scenario)
 
     scenario.let {
-        var database = arrayOfNulls<String>(it.rides.size)
-        it.rides.forEachIndexed { index, ride ->
-            database[index] = ride.index.toString()
-        }
-        for (i in 1..database.size) {
-            val result = getAllLists(database, i)
-            for (j in result.indices) {
-                println(result[j])
+        for (i in 1..it.rides.size) {
+            val result = Recursion.getAllLists(it.rides, i)
+            result.forEach {
+                it.forEach {
+                    print("${it.index},")
+                }
+                println()
             }
         }
     }
+
 }
