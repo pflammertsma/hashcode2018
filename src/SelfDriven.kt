@@ -59,8 +59,14 @@ class Ride(line: String) {
     }
 
     override fun toString(): String {
-        return "Ride(startX=$startX, startY=$startY, endX=$endX, endY=$endY, startT=$startT, endT=$endT)"
+        return "Ride(startX=$startX, startY=$startY, endX=$endX, endY=$endY, startT=$startT, endT=$endT, distance=${calcDistance()})"
     }
+
+    fun score(currentStep: Int): Int =
+            0
+
+    fun calcDistance() =
+            Math.abs(endX - startX) + Math.abs(endY - startY)
 
 }
 
