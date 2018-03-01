@@ -1,6 +1,7 @@
 import java.io.File
 import java.io.InputStream
 import java.util.*
+import java.util.regex.Pattern
 
 class Scenario(lines: List<String>) {
 
@@ -106,34 +107,45 @@ fun main(args: Array<String>) {
     val inputString = inputStream.bufferedReader().use { it.readText() }
     println(inputString)
 
-    val lines = inputString.split("\n")
+    val lines = inputString.split(System.lineSeparator())
     val scenario = Scenario(lines)
 
     println(scenario)
+
+    val subset = testSubset(intArrayOf(10, 20, 30, 40, 50), 5)
+    subset.forEach {
+        it.forEach {
+            print("$it ")
+        }
+        println()
+    }
+
 }
 
-fun testSubset(): ArrayList<IntArray> {
-    val input = intArrayOf(10, 20, 30, 40, 50)    // input array
-    val k = 3                             // sequence length
-
+fun testSubset(input: IntArray, subsetLength: Int): ArrayList<IntArray> {
     val subsets = ArrayList<IntArray>()
 
-    val s = IntArray(k)                  // here we'll keep indices
+    val s = IntArray(subsetLength)                  // here we'll keep indices
     // pointing to elements in input array
 
-    if (k <= input.size) {
+    if (subsetLength <= input.size) {
         // first index sequence: 0, 1, 2, ...
         run {
-            for (i in 0 until k - 1) {
+            var i = 0
+            while (true) {
                 s[i] = i
+                if (i >= subsetLength - 1) {
+                    break
+                }
+                i++
             }
         }
         subsets.add(getSubset(input, s))
         while (true) {
             var i: Int
             // find position of item that can be incremented
-            i = k - 1
-            while (i >= 0 && s[i] == input.size - k + i) {
+            i = subsetLength - 1
+            while (i >= 0 && s[i] == input.size - subsetLength + i) {
                 i--
             }
             if (i < 0) {
@@ -141,7 +153,7 @@ fun testSubset(): ArrayList<IntArray> {
             }
             s[i]++                    // increment this item
             ++i
-            while (i < k) {    // fill up remaining items
+            while (i < subsetLength) {    // fill up remaining items
                 s[i] = s[i - 1] + 1
                 i++
             }
