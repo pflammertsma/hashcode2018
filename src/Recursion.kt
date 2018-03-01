@@ -19,6 +19,10 @@ object Recursion {
             //append the sublists to each element
             for (i in elements.indices) {
                 for (j in allSublists.indices) {
+                    if (allSublists[j].contains(elements[i])) {
+                        // Already occurs in the list
+                        continue
+                    }
                     //add the newly appended combination to the list
                     val list = LinkedList<Ride>()
                     list.add(elements[i])
