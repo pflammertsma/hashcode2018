@@ -6,32 +6,35 @@ class Scenario(header: String) {
 
     val rows: Int
     val cols: Int
-    val vehicles: Int
-    val rides: Int
+    val rideCount: Int
     val bonus: Int
-    val steps: Int
+    val stepCount: Int
 
-    val rideList = LinkedList<Ride>()
+    val vehicles = LinkedList<Vehicle>()
+    val rides = LinkedList<Ride>()
+
+    var step = 0
 
     init {
         val values = header.split(" ")
         var i = 0
         rows = values[i++].toInt()
         cols = values[i++].toInt()
-        vehicles = values[i++].toInt()
-        rides = values[i++].toInt()
+        (0 until values[i++].toInt()).forEach {
+            vehicles.add(Vehicle())
+        }
+        rideCount = values[i++].toInt()
         bonus = values[i++].toInt()
-        steps = values[i++].toInt()
+        stepCount = values[i++].toInt()
     }
 
     fun addRide(ride: Ride) {
-        rideList.add(ride)
+        rides.add(ride)
     }
 
     override fun toString(): String {
-        return "Scenario(rows=$rows, cols=$cols, vehicles=$vehicles, rides=$rides, bonus=$bonus, steps=$steps, rideList=$rideList)"
+        return "Scenario(rows=$rows, cols=$cols, bonus=$bonus, stepCount=$stepCount, rides=$rides), vehicles=$vehicles"
     }
-
 
 }
 
@@ -59,6 +62,16 @@ class Ride(line: String) {
         return "Ride(startX=$startX, startY=$startY, endX=$endX, endY=$endY, startT=$startT, endT=$endT)"
     }
 
+}
+
+class Vehicle {
+
+    var x = 0
+    var y = 0
+
+    override fun toString(): String {
+        return "Vehicle($x, $y)"
+    }
 
 }
 
@@ -70,11 +83,7 @@ fun main(args: Array<String>) {
 
     val lines = inputString.split("\n")
     val scenario = Scenario(lines[0])
-    (1 until lines.size)
-            .filterNot {
-                // Skip empty lines
-                lines[it].isEmpty()
-            }
+    (1 until scenario.rideCount)
             .forEach {
                 scenario.addRide(Ride(lines[it]))
             }
