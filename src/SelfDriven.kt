@@ -30,7 +30,7 @@ class Scenario(lines: List<String>) {
 
         (1 until rideCount)
                 .forEach {
-                    addRide(Ride(lines[it]))
+                    addRide(Ride(it, lines[it]))
                 }
 
         vehicles.forEach {
@@ -52,7 +52,7 @@ class Scenario(lines: List<String>) {
 
 }
 
-class Ride(line: String) {
+class Ride(val index: Int, line: String) {
 
     val startX: Int
     val startY: Int
@@ -112,59 +112,16 @@ fun main(args: Array<String>) {
 
     println(scenario)
 
-    val database = arrayOf("a", "b", "c")
-    for (i in 1..database.size) {
-        val result = getAllLists(database, i)
-        for (j in result.indices) {
-            println(result[j])
+    scenario.let {
+        var database = arrayOfNulls<String>(it.rides.size)
+        it.rides.forEachIndexed { index, ride ->
+            database[index] = ride.index.toString()
+        }
+        for (i in 1..database.size) {
+            val result = getAllLists(database, i)
+            for (j in result.indices) {
+                println(result[j])
+            }
         }
     }
 }
-
-//fun testSubset(): ArrayList<IntArray> {
-//    val input = intArrayOf(10, 20, 30, 40, 50)    // input array
-//    val k = 3                             // sequence length
-//
-//    val subsets = ArrayList<IntArray>()
-//
-//    val s = IntArray(k)                  // here we'll keep indices
-//    // pointing to elements in input array
-//
-//    if (k <= input.size) {
-//        // first index sequence: 0, 1, 2, ...
-//        run {
-//            for (i in 0 until k - 1) {
-//                s[i] = i
-//            }
-//        }
-//        subsets.add(getSubset(input, s))
-//        while (true) {
-//            var i: Int
-//            // find position of item that can be incremented
-//            i = k - 1
-//            while (i >= 0 && s[i] == input.size - k + i) {
-//                i--
-//            }
-//            if (i < 0) {
-//                break
-//            }
-//            s[i]++                    // increment this item
-//            ++i
-//            while (i < k) {    // fill up remaining items
-//                s[i] = s[i - 1] + 1
-//                i++
-//            }
-//            subsets.add(getSubset(input, s))
-//        }
-//    }
-//
-//    return subsets
-//}
-//
-//// generate actual subset by index sequence
-//internal fun getSubset(input: IntArray, subset: IntArray): IntArray {
-//    val result = IntArray(subset.size)
-//    for (i in subset.indices)
-//        result[i] = input[subset[i]]
-//    return result
-//}
