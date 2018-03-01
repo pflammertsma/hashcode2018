@@ -2,9 +2,6 @@ import java.io.File
 import java.io.InputStream
 import java.util.*
 
-class SelfDriven {
-}
-
 class Scenario(header: String) {
 
     val rows: Int
@@ -73,11 +70,14 @@ fun main(args: Array<String>) {
 
     val lines = inputString.split("\n")
     val scenario = Scenario(lines[0])
-    for (i in 1 until lines.size) {
-        // Skip empty lines
-        if (lines[i].isEmpty()) continue
-        scenario.addRide(Ride(lines[i]))
-    }
+    (1 until lines.size)
+            .filterNot {
+                // Skip empty lines
+                lines[it].isEmpty()
+            }
+            .forEach {
+                scenario.addRide(Ride(lines[it]))
+            }
 
     println(scenario)
 }
